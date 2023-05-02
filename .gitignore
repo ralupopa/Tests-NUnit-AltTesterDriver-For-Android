@@ -1,0 +1,5 @@
+# Build results
+build/
+[Bb]in/
+[Oo]bj/
+AppTrashCat/
