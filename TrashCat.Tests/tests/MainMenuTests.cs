@@ -34,7 +34,7 @@ namespace TrashCat.Tests
         {
             mainMenuPage.PressLeaderboard();
             Assert.NotNull(mainMenuPage.LeaderBoardText);
-            Assert.AreEqual(mainMenuPage.GetLeaderboardText(), "Leaderboard");
+            Assert.That(mainMenuPage.GetLeaderboardText(), Is.EqualTo("Leaderboard"));
             mainMenuPage.PressCloseLeaderboard();
             Assert.True(mainMenuPage.IsDisplayed());
         }
@@ -44,8 +44,8 @@ namespace TrashCat.Tests
         {
             mainMenuPage.PressMissions();
             Assert.NotNull(mainMenuPage.MissionsText);
-            Assert.AreEqual(mainMenuPage.GetMissionsText(), "MISSIONS");
-            Assert.AreEqual(2, mainMenuPage.MissionsList.Count);
+            Assert.That(mainMenuPage.GetMissionsText(), Is.EqualTo("MISSIONS"));
+            Assert.That(mainMenuPage.MissionsList.Count, Is.EqualTo(2));
             mainMenuPage.PressCloseMissions();
             Assert.True(mainMenuPage.IsDisplayed());
         }
@@ -56,8 +56,8 @@ namespace TrashCat.Tests
             mainMenuPage.PressStore();
 
             Assert.NotNull(storePage.StoreText);
-            Assert.AreEqual(storePage.GetStoreText(), "STORE");
-            Assert.AreEqual(4, storePage.StoreTabsList.Count);
+            Assert.That(storePage.GetStoreText(), Is.EqualTo("STORE"));
+            Assert.That(storePage.StoreTabsList.Count, Is.EqualTo(4));
             Assert.True(storePage.StoreTabsAreDisplayed());
             storePage.TapCloseStore();
             Assert.True(mainMenuPage.IsDisplayed());
@@ -67,7 +67,7 @@ namespace TrashCat.Tests
         {
             mainMenuPage.PressSettings();
             Assert.NotNull(mainMenuPage.SettingsText);
-            Assert.AreEqual(mainMenuPage.GetSettingsText(), "SETTINGS");
+            Assert.That(mainMenuPage.GetSettingsText(), Is.EqualTo("SETTINGS"));
             Assert.True(mainMenuPage.SettingsSlidersAreDisplayed());
             mainMenuPage.PressCloseSettings();
             Assert.True(mainMenuPage.IsDisplayed());

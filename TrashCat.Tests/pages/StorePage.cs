@@ -54,7 +54,7 @@ namespace TrashCat.Tests.pages
         }
         public void PressBuy()
         {
-            var parentButton = BuyButtonText.getParent();
+            var parentButton = BuyButtonText.GetParent();
             parentButton.Tap();
         }
 
