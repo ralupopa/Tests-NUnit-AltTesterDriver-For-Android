@@ -44,7 +44,7 @@ adb install TrashCat.apk
 
 # Run tests manually (with [dotnet CLI](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-test))
 
-1. Setup ADB port forwarding (this can also be done in code in Setup and Teardown)
+1. [Optional to do manually] Setup ADB port forwarding (this can also be done in code in Setup and Teardown)
 
 ```
 adb forward --remove-all
