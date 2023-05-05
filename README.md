@@ -30,6 +30,12 @@ adb devices
 
 2. On mobile device: allow USB Debugging access (RSA key fingerprint from computer)
 
+3. Uninstall the app from the device
+
+```
+adb uninstall com.Altom.TrashCat
+```
+
 3. Install the app on the device
 
 ```
@@ -38,11 +44,31 @@ adb install TrashCat.apk
 
 # Run tests manually (with [dotnet CLI](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-test))
 
-1. Launch game
-2. From `TrashCat.Tests` execute all tests:
+1. Setup ADB port forwarding
+
+```
+adb forward --remove-all
+```
+
+```
+adb forward tcp:13000 tcp:13000
+```
+
+2. Launch game
+
+```
+adb shell am start -n com.Altom.TrashCat/com.unity3d.player.UnityPlayerActivity
+```
+
+3. From `TrashCat.Tests` execute all tests:
 
 ```
 dotnet test
+```
+
+4. Kill app
+```
+adb shell am force-stop com.Altom.TrashCat
 ```
 
 ! **Make sure to have the AltTester Desktop App closed, otherwise the test won't be able to connect to proper port.**
@@ -58,3 +84,8 @@ dotnet test --filter <test_class_name>
 ```
 dotnet test --filter <test_class_name>.<test_name>
 ```
+
+### Workaround for being able to use SDK 1.8.2 installed as package in project:
+- get `altwebsocket-sharp.dll` from [here](https://github.com/alttester/AltTester-Unity-SDK/tree/development/Assets/AltTester/3rdParty/websocket-sharp/netstandard2.0) and put in project's bin\Debug\net7.0
+
+this was necessary due to currently open [issue](https://github.com/alttester/AltTester-Unity-SDK/issues/1192) 
