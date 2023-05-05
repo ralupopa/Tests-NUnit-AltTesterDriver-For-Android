@@ -36,7 +36,7 @@ adb devices
 adb uninstall com.Altom.TrashCat
 ```
 
-3. Install the app on the device
+4. Install the app on the device
 
 ```
 adb install TrashCat.apk
@@ -44,7 +44,7 @@ adb install TrashCat.apk
 
 # Run tests manually (with [dotnet CLI](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-test))
 
-1. Setup ADB port forwarding
+1. Setup ADB port forwarding (this can also be done in code in Setup and Teardown)
 
 ```
 adb forward --remove-all
