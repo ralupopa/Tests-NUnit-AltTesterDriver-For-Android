@@ -16,11 +16,11 @@ namespace TrashCat.Tests.pages
                 return true;
             return false;
         }
-        public void PressResume()
+        public void TapResume()
         {
             ResumeButton.Tap();
         }
-        public void PressMainMenu()
+        public void TapMainMenu()
         {
             MainMenuButton.Tap();
         }

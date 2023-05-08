@@ -17,7 +17,7 @@ namespace TrashCat.Tests.pages
             }
             return false;
         }
-        public void PressPause()
+        public void TapPause()
         {
             PauseButton.Tap();
         }
@@ -44,6 +44,18 @@ namespace TrashCat.Tests.pages
         public void SetCheatInvincible(string flag)
         {
             Character.CallComponentMethod<string>("CharacterInputController", "CheatInvincible",  "Assembly-CSharp", new string[]{flag});
+        }
+        public bool GetCheatInvincible()
+        {
+            return Character.CallComponentMethod<bool>("CharacterInputController", "IsCheatInvincible", "Assembly-CSharp", new object[] { });
+        }
+
+        public void SetCurrentLife(int valueToSet)
+        {
+            Assert.NotNull(Character);
+            Assert.That(GetCurrentLife(), Is.EqualTo(3));
+
+            Character.SetComponentProperty("CharacterInputController", "currentLife", valueToSet, "Assembly-CSharp");
         }
         public void AvoidObstacles(int numberOfObstacles)
         {
