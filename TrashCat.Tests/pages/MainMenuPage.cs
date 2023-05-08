@@ -38,6 +38,7 @@ namespace TrashCat.Tests.pages
         public AltObject FindObjectByComponentLoadoutState { get => Driver.FindObject(By.COMPONENT, "LoadoutState"); }
         public AltObject StartButtonChild { get => Driver.FindObject(By.PATH, "//StartButton/Text"); }
         public AltObject AboutButton { get => Driver.FindObject(By.NAME, "About"); }
+        public AltObject CloseStoreButton { get => Driver.FindObject(By.PATH, "/Canvas/Background/Button"); }
         public bool IsDisplayed()
         {
             if (StoreButton != null && LeaderBoardButton != null && SettingsButton != null && MissionButton != null 
@@ -77,7 +78,10 @@ namespace TrashCat.Tests.pages
         {
             StoreButton.Tap();
         }
-        
+        public void TapCloseStore()
+        {
+            CloseStoreButton.Tap();
+        }
         public void TapSettings()
         {
             SettingsButton.Tap();
@@ -181,6 +185,21 @@ namespace TrashCat.Tests.pages
             string[] parameters = new[] { widthSet, heightSet, "false" };
             string [] typeOfParameters = new[] { "System.Int32", "System.Int32", "System.Boolean" };
             Driver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule", parameters, typeOfParameters );
+        }
+        public string UseGetSetStringKeyPlayerPref(string key, string setValue)
+        {
+            Driver.SetKeyPlayerPref(key, setValue);
+            return Driver.GetStringKeyPlayerPref(key);
+        }
+        public int UseGetSetIntKeyPlayerPref(string key, int setValue)
+        {
+            Driver.SetKeyPlayerPref(key, setValue);
+            return Driver.GetIntKeyPlayerPref(key);
+        }
+        public float UseGetSetFloatKeyPlayerPref(string key, float setValue)
+        {
+            Driver.SetKeyPlayerPref(key, setValue);
+            return Driver.GetFloatKeyPlayerPref(key);
         }
     }
 }

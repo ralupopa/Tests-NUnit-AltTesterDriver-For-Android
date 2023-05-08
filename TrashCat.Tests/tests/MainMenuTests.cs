@@ -249,6 +249,144 @@ namespace TrashCat.Tests
                 Assert.That(altDriver.GetCurrentScene(), Is.EqualTo(mainSceneName));
             });
         }
+        [Test]
+        public void TestScenesMethods()
+        {
+            const string mainSceneName = "Main";
+            const string shopSceneName = "Shop";
+            Assert.That(altDriver.GetAllLoadedScenes().Count, Is.EqualTo(1));
+            Assert.That(altDriver.GetCurrentScene(), Is.EqualTo(mainSceneName));
+
+            Assert.Multiple(() =>
+            {
+                mainMenuPage.TapStore();
+
+                List<string> loadedSceneNames = altDriver.GetAllLoadedScenes();
+                Assert.That(loadedSceneNames.Count, Is.EqualTo(2));
+
+                Assert.That(altDriver.GetCurrentScene(), Is.EqualTo(mainSceneName));
+
+                Assert.That(loadedSceneNames[0], Is.EqualTo(mainSceneName));
+                Assert.That(loadedSceneNames[1], Is.EqualTo(shopSceneName));
+
+                altDriver.UnloadScene(mainSceneName);
+                Assert.That(altDriver.GetAllLoadedScenes().Count, Is.EqualTo(1));
+                Assert.That(altDriver.GetCurrentScene(), Is.EqualTo(shopSceneName));
+
+                // load scene additive, together with current loaded scene
+                altDriver.LoadScene(mainSceneName, false);
+                List<string> loadedSceneNamesSecond = altDriver.GetAllLoadedScenes();
+                Assert.That(loadedSceneNamesSecond.Count, Is.EqualTo(2));
+                Assert.That(loadedSceneNames[0], Is.EqualTo(mainSceneName));
+                Assert.That(loadedSceneNames[1], Is.EqualTo(shopSceneName));
+
+                mainMenuPage.TapCloseStore();
+            });
+        }
+        [Test]
+        public void TestGetAndSetTimeScale()
+        {
+            Assert.That(altDriver.GetTimeScale(), Is.EqualTo(1f));
+
+            Assert.Multiple(() =>
+            {
+                altDriver.SetTimeScale(0.4f);
+                Thread.Sleep(2000);
+                var timeScaleFromGame = altDriver.GetTimeScale();
+                Assert.That(timeScaleFromGame, Is.EqualTo(0.4f));
+
+                altDriver.SetTimeScale(1f);
+                Assert.That(altDriver.GetTimeScale(), Is.EqualTo(1f));
+            });
+        }
+        [TestCase("enter")]
+        public void TestStringKeyPlayerPref(string key)
+        {
+            string setStringPref = "stringplayerPrefInTrashcat";
+            var stringPlayerPref = mainMenuPage.UseGetSetStringKeyPlayerPref(key, setStringPref);
+            Assert.That(stringPlayerPref, Is.EqualTo(setStringPref));
+        }
+        [TestCase("enter")]
+        public void TestIntKeyPlayerPref(string key)
+        {
+            int setIntPref = 13;
+            var intPlayerPref = mainMenuPage.UseGetSetIntKeyPlayerPref(key, setIntPref);
+            Assert.That(intPlayerPref, Is.EqualTo(setIntPref));
+        }
+        [TestCase("enter")]
+        public void TestFloatKeyPlayerPref(string key)
+        {
+            float setFloatPref = 13f;
+            var floatPlayerPref = mainMenuPage.UseGetSetFloatKeyPlayerPref(key, setFloatPref);
+            Assert.That(floatPlayerPref, Is.EqualTo(setFloatPref));
+        }
+        [Test]
+        public void TestGetAndSetPlayerPrefs()
+        {
+            TestStringKeyPlayerPref("space");
+            TestIntKeyPlayerPref("enter");
+            TestFloatKeyPlayerPref("enter");
+        }
+        [Test]
+        public void TestDeleteKeyPlayerPref()
+        {
+            var keyName = "testMe";
+            TestStringKeyPlayerPref(keyName);
+            altDriver.DeleteKeyPlayerPref(keyName);
+
+            Assert.Throws<NotFoundException>(
+                () => altDriver.GetStringKeyPlayerPref(keyName));
+        }
+        [Test]
+        public void TestDeletePlayerPref()
+        {
+            var keyName = "testMe";
+            var anotherKeyName = "keyTwo";
+            TestStringKeyPlayerPref(keyName);
+            TestFloatKeyPlayerPref(anotherKeyName);
+
+            altDriver.DeletePlayerPref();
+            Assert.Throws<NotFoundException>(
+                () => altDriver.GetStringKeyPlayerPref(keyName));
+
+            Assert.Throws<NotFoundException>(
+                () => altDriver.GetFloatKeyPlayerPref(anotherKeyName));
+        }
+        [Test]
+        public void TestGetServerVersion()
+        {
+            var serverVersion = altDriver.GetServerVersion();
+            Console.WriteLine("App was instrumented with server version: " + serverVersion);
+            Assert.That(serverVersion, Is.EqualTo("1.8.0"));
+        }
+        [Test]
+        public void TestGetAllScenes()
+        {
+            var listSceneNames = altDriver.GetAllScenes();
+            Assert.That(listSceneNames.Count(), Is.EqualTo(3));
+
+            Assert.That(listSceneNames, Is.EqualTo(ListOfScenes()));
+        }
+        [Test]
+        public void TestGetAllCameras()
+        {
+            var listCameras = altDriver.GetAllCameras();
+            Assert.That(listCameras.Count(), Is.EqualTo(2));
+
+            Assert.That(listCameras[0].name, Is.EqualTo("UICamera"));
+            Assert.That(listCameras[1].name, Is.EqualTo("Main Camera"));
+        }
+        [Test]
+        public void TestGetActiveCameras()
+        {
+            var listActiveCameras = altDriver.GetAllActiveCameras();
+            Assert.That(listActiveCameras.Count(), Is.EqualTo(2));
+
+            Assert.That(listActiveCameras[0].name, Is.EqualTo("UICamera"));
+            Assert.That(listActiveCameras[1].name, Is.EqualTo("Main Camera"));
+
+            //toDo: research how to de-activate camera an FindObject mentioning Camera
+        }
 
         public static List<string> ListOfComponentNamesForStoreButton()
         {
@@ -262,6 +400,16 @@ namespace TrashCat.Tests
                 "UnityEngine.AudioSource"
             };
             return listComponents;
+        }
+        public static List<string> ListOfScenes()
+        {
+            var listScenes = new List<string>()
+            {
+                "Main",
+                "Shop",
+                "Start"
+            };
+            return listScenes;
         }
     }
 }
