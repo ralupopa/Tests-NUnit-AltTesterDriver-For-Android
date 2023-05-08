@@ -8,7 +8,6 @@ namespace TrashCat.Tests.pages
         public void LoadScene()
         {
             Driver.LoadScene("Main");
-            //Driver.LoadScene("Shop", false);
         }
         public AltObject Store { get => Driver.WaitForObject(By.NAME, "StoreTitle", timeout: 10); }
         public AltObject StoreText { get => Driver.WaitForObject(By.NAME, "StoreTitle", timeout: 10); }
@@ -36,6 +35,12 @@ namespace TrashCat.Tests.pages
         public List<AltObject> ThemesList { get => Driver.FindObjects(By.PATH, "/Canvas/Background/ThemeList/Container/ItemEntry(Clone)/NamePriceButtonZone/Name"); }
         public AltObject MagnetFindObjectByText { get => Driver.FindObject(By.TEXT, "Magnet"); }
         public List<AltObject> FindObjectsByTextBuy { get => Driver.FindObjects(By.TEXT, "BUY"); }
+        public AltObject FindObjectWhichContainsPremium { get => Driver.FindObjectWhichContains(By.NAME, "Premium"); }
+        public List<AltObject> FindObjectsWhichContainItemEntry { get => Driver.FindObjectsWhichContain(By.NAME, "ItemEntry(Clone"); }
+        public AltObject StoreTitleFindObjectAtCoordinates { get => Driver.FindObjectAtCoordinates(new AltVector2(548, 568)); }
+        public List<AltObject> GetAllEnabledObjects { get => Driver.GetAllElements(enabled: true); }
+        public List<AltObject> GetAllDisabledObjects { get => Driver.GetAllElements(enabled: false); }
+        public AltObject WaitForObjectWhichContainsPremium { get => Driver.WaitForObjectWhichContains(By.NAME, "Premi", timeout: 5); }
         public bool IsDisplayed()
         {
             if (Store != null && CoinElement != null 
@@ -85,6 +90,20 @@ namespace TrashCat.Tests.pages
             && AccessoriesTab != null && ThemesTab != null)
                 return true;
             return false;
+        }
+        public float GetColorOfObject()
+        {
+            return ItemsTab.GetComponentProperty<float>("UnityEngine.UI.Button", "colors.highlightedColor.r", "UnityEngine.UI");
+        }
+
+        public object CallComponentMethodGetColor()
+        {
+            return ItemsTab.CallComponentMethod<object>("UnityEngine.UI.Button", "get_colors", "UnityEngine.UI", new object[] { });
+        }
+
+        public string GetCurrentSelectionForObject(AltObject Object)
+        {
+            return Object.GetComponentProperty<string>("UnityEngine.UI.Button", "currentSelectionState", "UnityEngine.UI");
         }
     }
 }
