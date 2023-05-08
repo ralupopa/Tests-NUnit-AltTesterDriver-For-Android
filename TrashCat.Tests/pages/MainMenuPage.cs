@@ -36,7 +36,8 @@ namespace TrashCat.Tests.pages
         public AltObject DeleteDataButton { get => Driver.WaitForObject(By.NAME, "DeleteData", timeout: 10); }
         public AltObject YESButton { get => Driver.WaitForObject(By.NAME, "YESButton", timeout: 10); }
         public AltObject FindObjectByComponentLoadoutState { get => Driver.FindObject(By.COMPONENT, "LoadoutState"); }
-
+        public AltObject StartButtonChild { get => Driver.FindObject(By.PATH, "//StartButton/Text"); }
+        public AltObject AboutButton { get => Driver.FindObject(By.NAME, "About"); }
         public bool IsDisplayed()
         {
             if (StoreButton != null && LeaderBoardButton != null && SettingsButton != null && MissionButton != null 
@@ -142,6 +143,18 @@ namespace TrashCat.Tests.pages
         {
             Assert.That(GetCharNameDisplay(), Is.EqualTo("Trash Cat"));
             FindObjectByComponentLoadoutState.SetComponentProperty("LoadoutState", "charNameDisplay.text", valueToSet, "Assembly-CSharp");
+        }
+        public string GetTextRunButton()
+        {
+            return StartButtonChild.GetText();
+        }
+        public void SetTextRunButton(string valueToSet)
+        {
+            StartButtonChild.SetText(valueToSet);
+        }
+        public string GetCurrentSelectionForObject(AltObject Object)
+        {
+            return Object.GetComponentProperty<string>("UnityEngine.UI.Button", "currentSelectionState", "UnityEngine.UI");
         }
 
     }
