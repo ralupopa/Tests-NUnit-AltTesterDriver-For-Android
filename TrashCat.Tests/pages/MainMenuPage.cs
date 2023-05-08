@@ -35,6 +35,7 @@ namespace TrashCat.Tests.pages
         public AltObject ThemeName { get => Driver.WaitForObject(By.NAME, "ThemeName", timeout: 10); }
         public AltObject DeleteDataButton { get => Driver.WaitForObject(By.NAME, "DeleteData", timeout: 10); }
         public AltObject YESButton { get => Driver.WaitForObject(By.NAME, "YESButton", timeout: 10); }
+        public AltObject FindObjectByComponentLoadoutState { get => Driver.FindObject(By.COMPONENT, "LoadoutState"); }
 
         public bool IsDisplayed()
         {
@@ -43,11 +44,11 @@ namespace TrashCat.Tests.pages
                 return true;
             return false;
         }
-        public void PressRun()
+        public void TapRun()
         {
             RunButton.Tap();
         }
-        public void PressLeaderboard()
+        public void TapLeaderboard()
         {
             LeaderBoardButton.Tap();
         }
@@ -55,11 +56,11 @@ namespace TrashCat.Tests.pages
         {
             return LeaderBoardText.GetText();
         }
-        public void PressCloseLeaderboard()
+        public void TapCloseLeaderboard()
         {
             CloseLeaderBoardButton.Tap();
         }
-        public void PressMissions()
+        public void TapMissions()
         {
             MissionButton.Tap();
         }
@@ -67,16 +68,16 @@ namespace TrashCat.Tests.pages
         {
             return MissionsText.GetText();
         }
-        public void PressCloseMissions()
+        public void TapCloseMissions()
         {
             CloseMissionsButton.Tap();
         }
-        public void PressStore()
+        public void TapStore()
         {
             StoreButton.Tap();
         }
         
-        public void PressSettings()
+        public void TapSettings()
         {
             SettingsButton.Tap();
         }
@@ -84,7 +85,7 @@ namespace TrashCat.Tests.pages
         {
             return SettingsText.GetText();
         }
-        public void PressCloseSettings()
+        public void TapCloseSettings()
         {
             CloseSettingsButton.Tap();
         }
@@ -128,10 +129,19 @@ namespace TrashCat.Tests.pages
         }
         public void DeleteData()
         {
-            PressSettings();
+            TapSettings();
             DeleteDataButton.Tap();
             YESButton.Tap();
-            PressCloseSettings();
+            TapCloseSettings();
+        }
+        public string GetCharNameDisplay()
+        {
+            return FindObjectByComponentLoadoutState.GetComponentProperty<string>("LoadoutState", "charNameDisplay.text", "Assembly-CSharp");
+        }
+        public void SetCharNameDisplay(string valueToSet)
+        {
+            Assert.That(GetCharNameDisplay(), Is.EqualTo("Trash Cat"));
+            FindObjectByComponentLoadoutState.SetComponentProperty("LoadoutState", "charNameDisplay.text", valueToSet, "Assembly-CSharp");
         }
 
     }

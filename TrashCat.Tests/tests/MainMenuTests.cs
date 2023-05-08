@@ -32,28 +32,28 @@ namespace TrashCat.Tests
         [Test]
         public void TestShowLeaderboard()
         {
-            mainMenuPage.PressLeaderboard();
+            mainMenuPage.TapLeaderboard();
             Assert.NotNull(mainMenuPage.LeaderBoardText);
             Assert.That(mainMenuPage.GetLeaderboardText(), Is.EqualTo("Leaderboard"));
-            mainMenuPage.PressCloseLeaderboard();
+            mainMenuPage.TapCloseLeaderboard();
             Assert.True(mainMenuPage.IsDisplayed());
         }
 
         [Test]
         public void TestShowMissionsContainsTwo()
         {
-            mainMenuPage.PressMissions();
+            mainMenuPage.TapMissions();
             Assert.NotNull(mainMenuPage.MissionsText);
             Assert.That(mainMenuPage.GetMissionsText(), Is.EqualTo("MISSIONS"));
             Assert.That(mainMenuPage.MissionsList.Count, Is.EqualTo(2));
-            mainMenuPage.PressCloseMissions();
+            mainMenuPage.TapCloseMissions();
             Assert.True(mainMenuPage.IsDisplayed());
         }
 
         [Test]
         public void TestShowStore()
         {
-            mainMenuPage.PressStore();
+            mainMenuPage.TapStore();
 
             Assert.NotNull(storePage.StoreText);
             Assert.That(storePage.GetStoreText(), Is.EqualTo("STORE"));
@@ -65,12 +65,20 @@ namespace TrashCat.Tests
         [Test]
         public void TestShowSettings()
         {
-            mainMenuPage.PressSettings();
+            mainMenuPage.TapSettings();
             Assert.NotNull(mainMenuPage.SettingsText);
             Assert.That(mainMenuPage.GetSettingsText(), Is.EqualTo("SETTINGS"));
             Assert.True(mainMenuPage.SettingsSlidersAreDisplayed());
-            mainMenuPage.PressCloseSettings();
+            mainMenuPage.TapCloseSettings();
             Assert.True(mainMenuPage.IsDisplayed());
+        }
+        [Test]
+        [Description("Use GetComponentProperty and SetComponentProperty for property from 'Fields' column")]
+        public void TestGetAndSetComponentPropertyString()
+        {
+            var newCharacterName = "Rich Cat";
+            mainMenuPage.SetCharNameDisplay(newCharacterName);
+            Assert.That(mainMenuPage.GetCharNameDisplay(), Is.EqualTo(newCharacterName));
         }
     }
 }

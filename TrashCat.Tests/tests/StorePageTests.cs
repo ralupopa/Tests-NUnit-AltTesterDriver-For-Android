@@ -16,7 +16,7 @@ namespace TrashCat.Tests
             mainMenuPage = new MainMenuPage(altDriver);
             storePage = new StorePage(altDriver);
             storePage.LoadScene();
-            mainMenuPage.PressStore();
+            mainMenuPage.TapStore();
             storePage.PressStoreToIncreaseCoins();
         }
 

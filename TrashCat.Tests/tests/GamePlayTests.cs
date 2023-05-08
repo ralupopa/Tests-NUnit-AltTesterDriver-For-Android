@@ -17,7 +17,7 @@ namespace TrashCat.Tests
             altDriver = new AltDriver(port: 13000);
             mainMenuPage = new MainMenuPage(altDriver);
             mainMenuPage.LoadScene();
-            mainMenuPage.PressRun();
+            mainMenuPage.TapRun();
             gamePlayPage = new GamePlay(altDriver);
             pauseOverlayPage = new PauseOverlayPage(altDriver);
             getAnotherChancePage = new GetAnotherChancePage(altDriver);
