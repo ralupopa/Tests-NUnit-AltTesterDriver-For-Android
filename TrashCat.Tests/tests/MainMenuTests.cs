@@ -155,6 +155,100 @@ namespace TrashCat.Tests
             Assert.That(storeBtnFields[0].name, Is.EqualTo("m_OnClick"));
             Assert.That(storeBtnFields[1].name, Is.EqualTo("m_CurrentIndex"));
         }
+        [Test]
+        public void TestGetAllMethods()
+        {
+            AltComponent testComponent = new AltComponent("UnityEngine.CanvasRenderer", "UnityEngine.UIModule");
+            var storeBtnMethods = mainMenuPage.StoreButton.GetAllMethods(testComponent);
+
+            Assert.That(storeBtnMethods.Count, Is.EqualTo(108));
+            Assert.That(storeBtnMethods[0], Is.EqualTo("Boolean get_hasPopInstruction()"));
+            Assert.That(storeBtnMethods[1], Is.EqualTo("Void set_hasPopInstruction(Boolean)"));
+        }
+        [Test]
+        public void TestGetApplicationScreenSize()
+        {
+            var appScreenX = altDriver.GetApplicationScreenSize().x;
+            var screenWidth = mainMenuPage.GetScreenWidth();
+            Assert.That(appScreenX, Is.EqualTo(screenWidth));
+
+            var appScreenY = altDriver.GetApplicationScreenSize().y;
+            var screenHeight = mainMenuPage.GetScreenHeight();
+            Assert.That(appScreenY, Is.EqualTo(screenHeight));
+        }
+        [Test]
+        public void TestCallStaticMethod()
+        {
+            var screenWidth = mainMenuPage.GetScreenWidth();
+            var screenHeight = mainMenuPage.GetScreenHeight();
+            var screenshot = altDriver.GetScreenshot();
+            Assert.True(screenshot.textureSize.x == screenWidth);
+            Assert.True(screenshot.textureSize.y == screenHeight);
+
+            // because struct AltTextureInformation has AltVector3 as attribute
+            Assert.That(screenshot.textureSize.z, Is.EqualTo(0));
+            Console.WriteLine(screenshot.scaleDifference.x);
+        }
+        [Test]
+        public void TestGetStaticProperty()
+        {
+            dynamic resolutionData = mainMenuPage.GetCurrentResolutionUsingGetStaticProperty();
+
+            Assert.True(resolutionData.ContainsKey("width"));
+            Assert.True(resolutionData.ContainsKey("height"));
+            Assert.True(resolutionData.ContainsKey("refreshRate"));
+        }
+        [Test]
+        public void TestGetStaticPropertyAndCallStaticMethod()
+        {
+            var screenWidthBefore = mainMenuPage.GetScreenWidthFromProperty();
+            var screenHeightBefore = mainMenuPage.GetScreenHeightFromProperty();
+
+            var newWidth = "1240";
+            var newHeight = "680";
+
+            Assert.Multiple(() =>
+            {
+                mainMenuPage.SetScreenResolutionUsingCallStaticMethod(newWidth, newHeight);
+
+                var screenWidthAfter = mainMenuPage.GetScreenWidthFromProperty();
+                Assert.That(screenWidthAfter, Is.EqualTo(newWidth));
+                Assert.That(screenWidthAfter, Is.Not.EqualTo(screenWidthBefore));
+
+                var screenHeightAfter = mainMenuPage.GetScreenHeightFromProperty();
+                Assert.That(screenHeightAfter, Is.EqualTo(newHeight));
+                Assert.That(screenHeightAfter, Is.Not.EqualTo(screenHeightBefore));
+                
+                mainMenuPage.SetScreenResolutionUsingCallStaticMethod(screenWidthBefore, screenHeightBefore);
+            });
+        }
+        [Test]
+        public void TestGetCurrentScene()
+        {
+            mainMenuPage.LoadScene();
+            Assert.That(altDriver.GetCurrentScene(), Is.EqualTo("Main"));
+        }
+        [Test]
+        public void TestWaitForCurrentSceneToBe()
+        {
+            const string mainSceneName = "Main";
+            const string shopSceneName = "Shop";
+            Assert.That(altDriver.GetAllLoadedScenes().Count, Is.EqualTo(1));
+            Assert.That(altDriver.GetCurrentScene(), Is.EqualTo(mainSceneName));
+
+            Assert.Multiple(() =>
+            {
+                altDriver.LoadScene(shopSceneName);
+                altDriver.WaitForCurrentSceneToBe(shopSceneName);
+
+                Assert.That(altDriver.GetCurrentScene(), Is.EqualTo(shopSceneName));
+
+                // load scene non-additive (as default)
+                altDriver.LoadScene(mainSceneName);
+                Assert.That(altDriver.GetAllLoadedScenes().Count, Is.EqualTo(1));
+                Assert.That(altDriver.GetCurrentScene(), Is.EqualTo(mainSceneName));
+            });
+        }
 
         public static List<string> ListOfComponentNamesForStoreButton()
         {

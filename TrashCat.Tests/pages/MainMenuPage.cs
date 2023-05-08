@@ -156,6 +156,31 @@ namespace TrashCat.Tests.pages
         {
             return Object.GetComponentProperty<string>("UnityEngine.UI.Button", "currentSelectionState", "UnityEngine.UI");
         }
-
+        public short GetScreenWidth()
+        {
+            return Driver.CallStaticMethod<short>("UnityEngine.Screen", "get_width", "UnityEngine.CoreModule", new string[] { }, null);
+        }
+        public short GetScreenHeight()
+        {
+            return Driver.CallStaticMethod<short>("UnityEngine.Screen", "get_height", "UnityEngine.CoreModule", new string[] { }, null);
+        }
+        public dynamic GetCurrentResolutionUsingGetStaticProperty()
+        {
+            return Driver.GetStaticProperty<dynamic>("UnityEngine.Screen", "currentResolution", "UnityEngine.CoreModule");
+        }
+        public string GetScreenWidthFromProperty()
+        {
+            return Driver.GetStaticProperty<string>("UnityEngine.Screen", "width", "UnityEngine.CoreModule");
+        }
+        public string GetScreenHeightFromProperty()
+        {
+            return Driver.GetStaticProperty<string>("UnityEngine.Screen", "height", "UnityEngine.CoreModule");
+        }
+        public void SetScreenResolutionUsingCallStaticMethod(string widthSet, string heightSet)
+        {
+            string[] parameters = new[] { widthSet, heightSet, "false" };
+            string [] typeOfParameters = new[] { "System.Int32", "System.Int32", "System.Boolean" };
+            Driver.CallStaticMethod<string>("UnityEngine.Screen", "SetResolution", "UnityEngine.CoreModule", parameters, typeOfParameters );
+        }
     }
 }
