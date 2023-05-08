@@ -3,3 +3,6 @@ build/
 [Bb]in/
 [Oo]bj/
 AppTrashCat/
+
+# generate screenshot
+test-screenshot.png

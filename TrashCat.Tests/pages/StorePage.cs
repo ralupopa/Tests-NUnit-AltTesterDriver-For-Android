@@ -8,6 +8,7 @@ namespace TrashCat.Tests.pages
         public void LoadScene()
         {
             Driver.LoadScene("Main");
+            //Driver.LoadScene("Shop", false);
         }
         public AltObject Store { get => Driver.WaitForObject(By.NAME, "StoreTitle", timeout: 10); }
         public AltObject StoreText { get => Driver.WaitForObject(By.NAME, "StoreTitle", timeout: 10); }
@@ -17,6 +18,11 @@ namespace TrashCat.Tests.pages
         public List<AltObject> BuyButtonList { get => Driver.FindObjects(By.NAME, "BuyButton"); }
         public AltObject CoinElement { get => Driver.WaitForObject(By.NAME, "Coin", timeout: 10); }
         public AltObject CoinsCounter { get => Driver.WaitForObject(By.NAME, "CoinsCounter", timeout: 10); }
+        public AltObject CoinFindObjectByName { get => Driver.FindObject(By.NAME, "Coin"); }
+        public AltObject CoinFindObjectByPath { get => Driver.FindObject(By.PATH, "/Canvas/Background/Coin"); }
+        public List<AltObject> FindObjectsByTagUntagged { get => Driver.FindObjects(By.TAG, "Untagged"); }
+        public AltObject FindObjectByComponentNIS { get => Driver.FindObject(By.COMPONENT, "Altom.AltTester.NewInputSystem"); }
+        public List<AltObject> FindObjectsByComponentShopList { get => Driver.FindObjects(By.COMPONENT, "ShopItemListItem"); }
         public AltObject PremiumCounter { get => Driver.WaitForObject(By.NAME, "Premium", timeout: 10); }
         public AltObject ThemesTab { get => Driver.WaitForObject(By.NAME, "Themes", timeout: 10); }
         public AltObject ItemsTab { get => Driver.WaitForObject(By.NAME, "Item", timeout: 10); }
@@ -28,7 +34,8 @@ namespace TrashCat.Tests.pages
         public List<AltObject> AccessoriesList { get => Driver.FindObjects(By.PATH, "/Canvas/Background/CharacterAccessoriesList/Container/ItemEntry(Clone)"); }
         public List<AltObject> AccessoriesHeaderCharacter { get => Driver.FindObjects(By.PATH, "/Canvas/Background/CharacterAccessoriesList/Container/Header(Clone)"); }
         public List<AltObject> ThemesList { get => Driver.FindObjects(By.PATH, "/Canvas/Background/ThemeList/Container/ItemEntry(Clone)/NamePriceButtonZone/Name"); }
-
+        public AltObject MagnetFindObjectByText { get => Driver.FindObject(By.TEXT, "Magnet"); }
+        public List<AltObject> FindObjectsByTextBuy { get => Driver.FindObjects(By.TEXT, "BUY"); }
         public bool IsDisplayed()
         {
             if (Store != null && CoinElement != null 
@@ -44,7 +51,7 @@ namespace TrashCat.Tests.pages
         {
             CloseStoreButton.Tap();
         }
-        public void PressStoreToIncreaseCoins()
+        public void TapStoreToIncreaseCoins()
         {
             Store.Tap();
         }

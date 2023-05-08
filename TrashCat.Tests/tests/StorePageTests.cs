@@ -17,7 +17,7 @@ namespace TrashCat.Tests
             storePage = new StorePage(altDriver);
             storePage.LoadScene();
             mainMenuPage.TapStore();
-            storePage.PressStoreToIncreaseCoins();
+            storePage.TapStoreToIncreaseCoins();
         }
 
         [TearDown]
@@ -27,12 +27,16 @@ namespace TrashCat.Tests
             AltPortForwarding.RemoveForwardAndroid();
             Thread.Sleep(1000);
         }
-
+        [Test]
+        public void TestAccessStoreIsDislayed()
+        {
+            Assert.IsTrue(storePage.IsDisplayed());
+        }
         [Test]
         public void TestAccessStoreAndIncreaseCoins()
         {
             storePage.IsDisplayed();
-            storePage.PressStoreToIncreaseCoins();
+            storePage.TapStoreToIncreaseCoins();
             var coinsText = storePage.GetCoinsCounterText();
             Assert.True(Int32.Parse(coinsText) != 0);
         }
@@ -59,6 +63,7 @@ namespace TrashCat.Tests
         }
 
         [Test]
+        [Order(1)]
         public void TestCheckItemsList()
         {
             storePage.IsDisplayed();
@@ -135,6 +140,50 @@ namespace TrashCat.Tests
                 mainMenuPage.DeleteData();
             });
         }
+        [Test]
+        public void TestFindObjectByName()
+        {
+            Assert.NotNull(storePage.CoinFindObjectByName);
+        }
+        [Test]
+        public void TestFindObjectByPath()
+        {
+            Assert.NotNull(storePage.CoinFindObjectByPath);
+        }
+        [Test]
+        public void TestFindObjectsByTag()
+        {
+            Assert.NotNull(storePage.FindObjectsByTagUntagged);
+            /// <summary>
+            /// FindObjects by Tag 'Untagged' returns different count each time
+            /// also in desktop the count is different on each search
+            /// using Assert.Greater to verify that at least 100 elements are returned
+            /// </summary>
+            Thread.Sleep(3000);
+            Assert.Greater(storePage.FindObjectsByTagUntagged.Count, 100);
+        }
+        [Test]
+        [Order(2)]
+        public void TestFindObjectsByComponent()
+        {
+            Assert.NotNull(storePage.FindObjectByComponentNIS);
+            Assert.NotNull(storePage.FindObjectsByComponentShopList);
+            Assert.That(storePage.FindObjectsByComponentShopList.Count, Is.EqualTo(4));
+        }
+        [Test]
+        public void TestFindObjectByText()
+        {
+            Assert.NotNull(storePage.MagnetFindObjectByText);
+            Assert.NotNull(storePage.FindObjectsByTextBuy);
+            Assert.That(storePage.FindObjectsByTextBuy.Count, Is.EqualTo(4));
+        }
 
+        [Test]
+        public void TestGetScreenshot()
+        {
+            var path="../../../test-screenshot.png";
+            altDriver.GetPNGScreenshot(path);
+            FileAssert.Exists(path);
+        }
     }
 }
