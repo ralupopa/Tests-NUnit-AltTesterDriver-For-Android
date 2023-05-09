@@ -16,10 +16,9 @@ namespace TrashCat.Tests
             mainMenuPage = new MainMenuPage(altDriver);
             storePage = new StorePage(altDriver);
             storePage.LoadScene();
-            mainMenuPage.TapStore();
+            mainMenuPage.TapOnObject(mainMenuPage.StoreButton);
             storePage.TapStoreToIncreaseCoins();
         }
-
         [TearDown]
         public void Dispose()
         {
@@ -40,28 +39,26 @@ namespace TrashCat.Tests
             var coinsText = storePage.GetCoinsCounterText();
             Assert.True(Int32.Parse(coinsText) != 0);
         }
-
         [Test(Author = "Ralu", Description = "Can Buy Night theme")]
         public void TestBuyNightTime()
         {
             Assert.Multiple(() =>
             {
-                storePage.PressThemes();
+                storePage.TapOnObject(storePage.ThemesTab);
                 Assert.NotNull(storePage.OwnedButtonText);
                 Assert.NotNull(storePage.BuyButtonText);
                 storePage.PressBuy();
-                storePage.TapCloseStore();
+                storePage.TapOnObject(storePage.CloseStoreButton);
                 Assert.True(mainMenuPage.IsDisplayed());
                 mainMenuPage.ButtonsLeftRightAreDisplayed();
                 Assert.NotNull(mainMenuPage.ThemeName);
                 Assert.That(mainMenuPage.GetThemeNameText(), Is.EqualTo("Day"));
-                mainMenuPage.PressButtonRight();
+                mainMenuPage.TapOnObject(mainMenuPage.ButtonRight);
                 StringAssert.Contains("Night", mainMenuPage.GetThemeNameText());
 
                 mainMenuPage.DeleteData();
             });
         }
-
         [Test]
         [Order(1)]
         public void TestCheckItemsList()
@@ -70,69 +67,63 @@ namespace TrashCat.Tests
             Assert.True(storePage.StoreTabsAreDisplayed());
             Assert.That(storePage.ItemsList.Count, Is.EqualTo(4));
         }
-
         [Test]
         public void TestCheckCharactersList()
         {
             storePage.IsDisplayed();
             Assert.True(storePage.StoreTabsAreDisplayed());
-            storePage.PressCharacters();
+            storePage.TapOnObject(storePage.CharactersTab);
             Assert.That(storePage.CharactersList.Count, Is.EqualTo(2));
         }
-
         [Test]
         public void TestCheckAccessoriesList()
         {
             storePage.IsDisplayed();
             Assert.True(storePage.StoreTabsAreDisplayed());
-            storePage.PressAccessories();
+            storePage.TapOnObject(storePage.AccessoriesTab);
             Assert.That(storePage.AccessoriesList.Count, Is.EqualTo(5));
             Assert.That(storePage.AccessoriesHeaderCharacter.Count, Is.EqualTo(2));
         }
-
         [Test]
         public void TestCheckThemesList()
         {
             storePage.IsDisplayed();
             Assert.True(storePage.StoreTabsAreDisplayed());
-            storePage.PressThemes();
+            storePage.TapOnObject(storePage.ThemesTab);
             Assert.That(storePage.ThemesList.Count, Is.EqualTo(2));
 
-            storePage.TapCloseStore();
+            storePage.TapOnObject(storePage.CloseStoreButton);
         }
-
         [Test]
         public void TestBuyCharacterRubbishRaccoon()
         {
             Assert.Multiple(() =>
             {
-                storePage.PressCharacters();
+                storePage.TapOnObject(storePage.CharactersTab);
                 Assert.NotNull(storePage.OwnedButtonText);
                 Assert.NotNull(storePage.BuyButtonText);
                 storePage.PressBuy();
-                storePage.TapCloseStore();
+                storePage.TapOnObject(storePage.CloseStoreButton);
                 Assert.True(mainMenuPage.IsDisplayed());
                 Assert.True(mainMenuPage.ButtonsLeftRightAreDisplayed());
                 Assert.That(mainMenuPage.GetCharacterNameText(), Is.EqualTo("Trash Cat"));
-                mainMenuPage.PressButtonRight();
+                mainMenuPage.TapOnObject(mainMenuPage.ButtonRight);
                 StringAssert.Contains("Rubbish Raccoon", mainMenuPage.GetCharacterNameText());
 
                 mainMenuPage.DeleteData();
             });
         }
-
         [Test]
         public void TestBuyAllAccessories()
         {
             Assert.Multiple(() =>
             {
-                storePage.PressAccessories();
+                storePage.TapOnObject(storePage.AccessoriesTab);
                 foreach (AltObject button in storePage.BuyButtonList)
                 {
                     button.Tap();
                 }
-
-                storePage.TapCloseStore();
+                storePage.TapOnObject(storePage.CloseStoreButton);
                 Assert.True(mainMenuPage.IsDisplayed());
                 Assert.True(mainMenuPage.AccessoriesSelectorIsDisplayed());
                 Assert.True(mainMenuPage.ButtonsTopBottomAreDisplayed());

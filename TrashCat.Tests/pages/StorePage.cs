@@ -52,9 +52,9 @@ namespace TrashCat.Tests.pages
         {
             return StoreText.GetText();
         }
-        public void TapCloseStore()
+        public void TapOnObject(AltObject objectTo)
         {
-            CloseStoreButton.Tap();
+            objectTo.Tap();
         }
         public void TapStoreToIncreaseCoins()
         {
@@ -69,21 +69,6 @@ namespace TrashCat.Tests.pages
             var parentButton = BuyButtonText.GetParent();
             parentButton.Tap();
         }
-
-        public void PressCharacters()
-        {
-            CharactersTab.Tap();
-        }
-
-        public void PressAccessories()
-        {
-            AccessoriesTab.Tap();
-        }
-        public void PressThemes()
-        {
-            ThemesTab.Tap();
-        }
-
         public bool StoreTabsAreDisplayed()
         {
             if (ItemsTab != null && CharactersTab != null 
@@ -95,12 +80,10 @@ namespace TrashCat.Tests.pages
         {
             return ItemsTab.GetComponentProperty<float>("UnityEngine.UI.Button", "colors.highlightedColor.r", "UnityEngine.UI");
         }
-
         public object CallComponentMethodGetColor()
         {
             return ItemsTab.CallComponentMethod<object>("UnityEngine.UI.Button", "get_colors", "UnityEngine.UI", new object[] { });
         }
-
         public string GetCurrentSelectionForObject(AltObject Object)
         {
             return Object.GetComponentProperty<string>("UnityEngine.UI.Button", "currentSelectionState", "UnityEngine.UI");

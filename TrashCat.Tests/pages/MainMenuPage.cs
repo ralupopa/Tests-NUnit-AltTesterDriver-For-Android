@@ -46,53 +46,21 @@ namespace TrashCat.Tests.pages
                 return true;
             return false;
         }
-        public void TapRun()
+        public void TapOnObject(AltObject objectTo)
         {
-            RunButton.Tap();
-        }
-        public void TapLeaderboard()
-        {
-            LeaderBoardButton.Tap();
+            objectTo.Tap();
         }
         public string GetLeaderboardText()
         {
             return LeaderBoardText.GetText();
         }
-        public void TapCloseLeaderboard()
-        {
-            CloseLeaderBoardButton.Tap();
-        }
-        public void TapMissions()
-        {
-            MissionButton.Tap();
-        }
         public string GetMissionsText()
         {
             return MissionsText.GetText();
         }
-        public void TapCloseMissions()
-        {
-            CloseMissionsButton.Tap();
-        }
-        public void TapStore()
-        {
-            StoreButton.Tap();
-        }
-        public void TapCloseStore()
-        {
-            CloseStoreButton.Tap();
-        }
-        public void TapSettings()
-        {
-            SettingsButton.Tap();
-        }
         public string GetSettingsText()
         {
             return SettingsText.GetText();
-        }
-        public void TapCloseSettings()
-        {
-            CloseSettingsButton.Tap();
         }
         public bool SettingsSlidersAreDisplayed()
         {
@@ -106,10 +74,6 @@ namespace TrashCat.Tests.pages
             if (ButtonRight != null && ButtonLeft != null )
                 return true;
             return false;
-        }
-        public void PressButtonRight()
-        {
-            ButtonRight.Tap();
         }
         public bool ButtonsTopBottomAreDisplayed()
         {
@@ -127,17 +91,16 @@ namespace TrashCat.Tests.pages
         {
             return ThemeName.GetText();
         }
-
         public string GetCharacterNameText()
         {
             return CharacterName.GetText();
         }
         public void DeleteData()
         {
-            TapSettings();
+            SettingsButton.Tap();
             DeleteDataButton.Tap();
             YESButton.Tap();
-            TapCloseSettings();
+            CloseSettingsButton.Tap();
         }
         public string GetCharNameDisplay()
         {

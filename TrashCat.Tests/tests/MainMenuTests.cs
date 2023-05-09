@@ -8,7 +8,7 @@ namespace TrashCat.Tests
         MainMenuPage mainMenuPage;
         StorePage storePage;
         [SetUp]
-        public void SetUp()
+        public void Setup()
         {
             AltPortForwarding.ForwardAndroid();
             altDriver = new AltDriver(port: 13000);
@@ -23,7 +23,6 @@ namespace TrashCat.Tests
             AltPortForwarding.RemoveForwardAndroid();
             Thread.Sleep(1000);
         }
-
         [Test]
         public void TestMainMenuPageIsLoadedCorrectly()
         {
@@ -32,44 +31,41 @@ namespace TrashCat.Tests
         [Test]
         public void TestShowLeaderboard()
         {
-            mainMenuPage.TapLeaderboard();
+            mainMenuPage.TapOnObject(mainMenuPage.LeaderBoardButton);
             Assert.NotNull(mainMenuPage.LeaderBoardText);
             Assert.That(mainMenuPage.GetLeaderboardText(), Is.EqualTo("Leaderboard"));
-            mainMenuPage.TapCloseLeaderboard();
+            mainMenuPage.TapOnObject(mainMenuPage.CloseLeaderBoardButton);
             Assert.True(mainMenuPage.IsDisplayed());
         }
-
         [Test]
         public void TestShowMissionsContainsTwo()
         {
-            mainMenuPage.TapMissions();
+            mainMenuPage.TapOnObject(mainMenuPage.MissionButton);
             Assert.NotNull(mainMenuPage.MissionsText);
             Assert.That(mainMenuPage.GetMissionsText(), Is.EqualTo("MISSIONS"));
             Assert.That(mainMenuPage.MissionsList.Count, Is.EqualTo(2));
-            mainMenuPage.TapCloseMissions();
+            mainMenuPage.TapOnObject(mainMenuPage.CloseMissionsButton);
             Assert.True(mainMenuPage.IsDisplayed());
         }
-
         [Test]
         public void TestShowStore()
         {
-            mainMenuPage.TapStore();
-
+            mainMenuPage.TapOnObject(mainMenuPage.StoreButton);
             Assert.NotNull(storePage.StoreText);
             Assert.That(storePage.GetStoreText(), Is.EqualTo("STORE"));
             Assert.That(storePage.StoreTabsList.Count, Is.EqualTo(4));
             Assert.True(storePage.StoreTabsAreDisplayed());
-            storePage.TapCloseStore();
+            mainMenuPage.TapOnObject(mainMenuPage.CloseStoreButton);
             Assert.True(mainMenuPage.IsDisplayed());
         }
         [Test]
         public void TestShowSettings()
         {
-            mainMenuPage.TapSettings();
+            mainMenuPage.TapOnObject(mainMenuPage.SettingsButton);
             Assert.NotNull(mainMenuPage.SettingsText);
             Assert.That(mainMenuPage.GetSettingsText(), Is.EqualTo("SETTINGS"));
             Assert.True(mainMenuPage.SettingsSlidersAreDisplayed());
-            mainMenuPage.TapCloseSettings();
+            mainMenuPage.TapOnObject(mainMenuPage.CloseSettingsButton);
             Assert.True(mainMenuPage.IsDisplayed());
         }
         [Test]
@@ -103,7 +99,7 @@ namespace TrashCat.Tests
         [Test]
         public void TestMoveMouseToObjectCoordinates()
         {
-            mainMenuPage.TapSettings();
+            mainMenuPage.TapOnObject(mainMenuPage.SettingsButton);
             var AboutBtn = mainMenuPage.AboutButton;
             Assert.NotNull(AboutBtn);
             var btnWorldCoordinates = AboutBtn.GetWorldPosition();
@@ -120,7 +116,7 @@ namespace TrashCat.Tests
                 Assert.That(stateAfterMoveMouse, Is.EqualTo("1"));
 
                 Assert.That(stateBeforeMoveMouse, Is.Not.EqualTo(stateAfterMoveMouse));
-                mainMenuPage.TapCloseSettings();
+                mainMenuPage.TapOnObject(mainMenuPage.CloseSettingsButton);
             });
         }
         [Test]
@@ -259,7 +255,7 @@ namespace TrashCat.Tests
 
             Assert.Multiple(() =>
             {
-                mainMenuPage.TapStore();
+                mainMenuPage.TapOnObject(mainMenuPage.StoreButton);
 
                 List<string> loadedSceneNames = altDriver.GetAllLoadedScenes();
                 Assert.That(loadedSceneNames.Count, Is.EqualTo(2));
@@ -280,7 +276,7 @@ namespace TrashCat.Tests
                 Assert.That(loadedSceneNames[0], Is.EqualTo(mainSceneName));
                 Assert.That(loadedSceneNames[1], Is.EqualTo(shopSceneName));
 
-                mainMenuPage.TapCloseStore();
+                mainMenuPage.TapOnObject(mainMenuPage.CloseStoreButton);
             });
         }
         [Test]

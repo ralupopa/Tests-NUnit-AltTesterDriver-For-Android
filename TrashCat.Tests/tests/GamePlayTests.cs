@@ -12,12 +12,11 @@ namespace TrashCat.Tests
         [SetUp]
         public void Setup()
         {
-
             AltPortForwarding.ForwardAndroid();
             altDriver = new AltDriver(port: 13000);
             mainMenuPage = new MainMenuPage(altDriver);
             mainMenuPage.LoadScene();
-            mainMenuPage.TapRun();
+            mainMenuPage.TapOnObject(mainMenuPage.RunButton);
             gamePlayPage = new GamePlay(altDriver);
             pauseOverlayPage = new PauseOverlayPage(altDriver);
             getAnotherChancePage = new GetAnotherChancePage(altDriver);
