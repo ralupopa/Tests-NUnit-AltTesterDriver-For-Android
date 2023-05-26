@@ -10,7 +10,7 @@ namespace TrashCat.Tests
         [SetUp]
         public void Setup()
         {
-            AltPortForwarding.ForwardAndroid(13000, 5037);
+            AltPortForwarding.ForwardAndroid();
             altDriver = new AltDriver(port: 13000);
             mainMenuPage = new MainMenuPage(altDriver);
             storePage = new StorePage(altDriver);
